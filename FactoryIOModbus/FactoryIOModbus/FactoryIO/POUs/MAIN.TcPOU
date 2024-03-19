@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="MAIN" Id="{b8ddf703-70a7-4ad2-8e3e-66f68b5d2cba}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM MAIN
+VAR
+	myStateMachine : StateMachine();
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[// Call Program
+myStateMachine();]]></ST>
+    </Implementation>
+    <LineIds Name="MAIN">
+      <LineId Id="7" Count="0" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>
