@@ -16,6 +16,14 @@
     <Implicit_KindOfTask>{f5c26717-6f9a-456d-aedc-1c171bd442c7}</Implicit_KindOfTask>
     <Implicit_Jitter_Distribution>{03a3f0ec-3227-4158-8d34-a1aea89248b1}</Implicit_Jitter_Distribution>
     <LibraryReferences>{3804aa40-bcad-46e1-9c10-390b46d45c2d}</LibraryReferences>
+    <Company>LAB UAS</Company>
+    <Released>false</Released>
+    <Title>TwinCAT-FactoryIO-Modbus</Title>
+    <Author>Jouni Könönen</Author>
+    <ProjectVersion>0.0.1</ProjectVersion>
+    <Description>This is example solution statemachine.
+
+The conveyors (Entry and Buffer Conveyor) are only switched on when needed. Sensors Image Ready, At entry and At exit control the motors. The Entry conveyor has only one box at a time. The Buffer Conveyor accumulates three boxes, after which the conveyor is emptied. Configure PLC Tags with the same names as used in FactoryIO.</Description>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="GVLs\GVL.TcGVL">
@@ -55,8 +63,8 @@
   <ProjectExtensions>
     <PlcProjectOptions>
       <XmlArchive>
-  <Data>
-    <o xml:space="preserve" t="OptionKey">
+        <Data>
+          <o xml:space="preserve" t="OptionKey">
       <v n="Name">"&lt;ProjectRoot&gt;"</v>
       <d n="SubKeys" t="Hashtable" ckt="String" cvt="OptionKey">
         <v>{192FAD59-8248-4824-A8DE-9177C94C195A}</v>
@@ -83,13 +91,13 @@
       </d>
       <d n="Values" t="Hashtable" />
     </o>
-  </Data>
-  <TypeList>
-    <Type n="Hashtable">System.Collections.Hashtable</Type>
-    <Type n="OptionKey">{54dd0eac-a6d8-46f2-8c27-2f43c7e49861}</Type>
-    <Type n="String">System.String</Type>
-  </TypeList>
-</XmlArchive>
+        </Data>
+        <TypeList>
+          <Type n="Hashtable">System.Collections.Hashtable</Type>
+          <Type n="OptionKey">{54dd0eac-a6d8-46f2-8c27-2f43c7e49861}</Type>
+          <Type n="String">System.String</Type>
+        </TypeList>
+      </XmlArchive>
     </PlcProjectOptions>
   </ProjectExtensions>
 </Project>

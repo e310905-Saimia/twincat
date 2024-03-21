@@ -3,6 +3,8 @@
   <POU Name="MAIN" Id="{439a731e-10f6-437d-9e9f-b6ea22b9e972}" SpecialFunc="None">
     <Declaration><![CDATA[PROGRAM MAIN
 VAR
+	// (C) Jouni Könönen
+	//	31.3.2024
 END_VAR
 ]]></Declaration>
     <Implementation>
