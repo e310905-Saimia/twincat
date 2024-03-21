@@ -1,0 +1,142 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="StateMachine" Id="{752e05fd-a924-4824-ac9a-ee71893c8708}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM StateMachine
+VAR
+// Outputs	
+	bEntryConveyor		: BOOL := GVL.mb_Input_Coils[0];
+	bBufferConveyor		: BOOL := GVL.mb_Input_Coils[1];
+	bEmitter 			: BOOL := GVL.mb_Input_Coils[2];
+// Inputs
+	bItemReady			: BOOL := GVL.mb_Output_Coils[0];
+	bAtEntry			: BOOL := GVL.mb_Output_Coils[1];
+	bAtExit				: BOOL := GVL.mb_Output_Coils[2];	
+	bFactoryIORunning 	: BOOL := GVL.mb_Output_Coils[3];
+	bFactoryIOPaused 	: BOOL := GVL.mb_Output_Coils[4];
+	bFactoryIOReset 	: BOOL := GVL.mb_Output_Coils[5];
+	
+// Local Variables
+	risingEdge			: R_TRIG; 
+
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[// READ Inputs
+	bItemReady			:= GVL.mb_Output_Coils[0];
+	bAtEntry			:= GVL.mb_Output_Coils[1];
+	bAtExit				:= GVL.mb_Output_Coils[2];	
+	bFactoryIORunning 	:= GVL.mb_Output_Coils[3];
+	bFactoryIOPaused 	:= GVL.mb_Output_Coils[4];
+	bFactoryIOReset 	:= GVL.mb_Output_Coils[5];
+
+// RESET process
+IF bFactoryIOReset THEN
+	GVL.iState := 0;
+	GVL.nBoxCounter := 0;
+END_IF
+
+{region "Start Sequence"}
+// START Sequence
+IF bFactoryIORunning AND NOT bFactoryIOPaused THEN
+	CASE GVL.iState OF
+		0:
+			bEmitter:= TRUE;
+			bEntryConveyor := TRUE;
+			bBufferConveyor := FALSE;
+			GVL.iState := 10; 
+		10:
+			
+			bEntryConveyor := TRUE;
+			IF NOT bItemReady THEN 	
+				bEmitter := FALSE;		
+				GVL.iState := 20;
+			END_IF; 
+		20:
+			bEntryConveyor := TRUE;
+			IF NOT bAtEntry THEN
+				GVL.iState := 30;
+			END_IF; 
+		30:
+			bEntryConveyor := TRUE;
+			bBufferConveyor := TRUE;
+			
+			IF bAtEntry THEN
+				GVL.iState := 40;
+			END_IF; 
+				
+		40:
+			bEntryConveyor := FALSE;
+			bBufferConveyor := FALSE;
+			GVL.nBoxCounter := GVL.nBoxCounter + 1;
+			
+			IF GVL.nBoxCounter >= 3 THEN
+				GVL.iState := 50;		
+			ELSE
+				GVL.iState := 0; 
+			END_IF;
+		50:
+			bEntryConveyor := FALSE;
+			bBufferConveyor := TRUE;
+						
+			risingEdge(CLK:= bAtExit);
+			IF risingEdge.Q THEN 
+				GVL.nBoxCounter := GVL.nBoxCounter - 1;
+				GVL.iState := 60;
+			END_IF; 
+		60:
+			bBufferConveyor := TRUE;
+			 
+			IF bAtExit THEN
+				GVL.iState := 50;
+			END_IF;
+			
+			IF GVL.nBoxCounter <= 0 THEN
+				GVL.iState := 0;		
+			END_IF;
+				 
+	END_CASE;
+END_IF;
+{endregion}
+
+// WRITE OUTPUTS
+	GVL.mb_Input_Coils[0]:= bEntryConveyor;
+	GVL.mb_Input_Coils[1]:= bBufferConveyor;
+	GVL.mb_Input_Coils[2]:= bEmitter;]]></ST>
+    </Implementation>
+    <LineIds Name="StateMachine">
+      <LineId Id="74" Count="0" />
+      <LineId Id="18" Count="9" />
+      <LineId Id="88" Count="0" />
+      <LineId Id="28" Count="0" />
+      <LineId Id="75" Count="0" />
+      <LineId Id="29" Count="23" />
+      <LineId Id="114" Count="0" />
+      <LineId Id="53" Count="2" />
+      <LineId Id="78" Count="3" />
+      <LineId Id="84" Count="0" />
+      <LineId Id="125" Count="0" />
+      <LineId Id="87" Count="0" />
+      <LineId Id="77" Count="0" />
+      <LineId Id="89" Count="2" />
+      <LineId Id="56" Count="2" />
+      <LineId Id="120" Count="0" />
+      <LineId Id="135" Count="0" />
+      <LineId Id="123" Count="0" />
+      <LineId Id="93" Count="0" />
+      <LineId Id="60" Count="2" />
+      <LineId Id="64" Count="0" />
+      <LineId Id="129" Count="0" />
+      <LineId Id="99" Count="0" />
+      <LineId Id="66" Count="1" />
+      <LineId Id="131" Count="0" />
+      <LineId Id="133" Count="0" />
+      <LineId Id="132" Count="0" />
+      <LineId Id="130" Count="0" />
+      <LineId Id="134" Count="0" />
+      <LineId Id="68" Count="1" />
+      <LineId Id="76" Count="0" />
+      <LineId Id="70" Count="3" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>
