@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <GVL Name="GVL" Id="{f5dc6345-1f38-4419-9302-b9eecfc8063c}">
+    <Declaration><![CDATA[{attribute 'qualified_only'}
+VAR_GLOBAL
+	// Digital IO in FactoryIO Outputs
+	mb_Input_Coils		:	ARRAY [0..3] OF BOOL;
+	// Digital IO in FactoryIO Inputs
+	mb_Output_Coils		:   ARRAY [0..5] OF BOOL;
+	// Analog IO in FactoryIO Outputs
+	mb_Input_Registers	: 	ARRAY [0..255] OF WORD;
+	// Analog IO in FactoryIO Inputs
+	mb_Output_Registers	: 	ARRAY [0..255] OF WORD;
+	
+	nState				: INT;
+END_VAR]]></Declaration>
+  </GVL>
+</TcPlcObject>

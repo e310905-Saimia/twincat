@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="MAIN" Id="{761fd973-c8da-4c7a-9c6a-57bff7cf3149}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM MAIN
+VAR
+	fb_test	:	POU_FB_TEST();
+	fb_2Test	:	POU_FB_TEST();
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[POU_Program_1();
+
+fb_test(nIn_1:=5,nIn_2:=10);
+fb_2Test(nIn_1:=2,nIn_2:=5);]]></ST>
+    </Implementation>
+    <LineIds Name="MAIN">
+      <LineId Id="2" Count="0" />
+      <LineId Id="7" Count="0" />
+      <LineId Id="6" Count="0" />
+      <LineId Id="11" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>
