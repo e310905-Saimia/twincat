@@ -3,21 +3,36 @@
   <POU Name="MAIN" Id="{761fd973-c8da-4c7a-9c6a-57bff7cf3149}" SpecialFunc="None">
     <Declaration><![CDATA[PROGRAM MAIN
 VAR
-	fb_test	:	POU_FB_TEST();
-	fb_2Test	:	POU_FB_TEST();
-END_VAR
-]]></Declaration>
+	(*
+	fbReadRegs        : FB_MBReadRegs;
+    bReadRegs         : BOOL;
+    bReadRegsBusy     : BOOL;
+    bReadRegsError    : BOOL;
+    nReadRegsErrorId  : UDINT;
+    nReadRegsCount    : UDINT;
+    nQuantity         : WORD:=2;
+    nMBAddr           : WORD:=24;
+    arrData           : ARRAY [1..2] OF WORD;
+	*)
+	
+	//myBlink	: Array[0..7] OF MyBlink();
+	redBlink	: MyBlink();
+	yellowBlink	: MyBlink();
+	greenBlink	: MyBlink();
+	controlPanel 	:	ControlPanel();
+	
+END_VAR]]></Declaration>
     <Implementation>
-      <ST><![CDATA[POU_Program_1();
+      <ST><![CDATA[Blink();
 
-fb_test(nIn_1:=5,nIn_2:=10);
-fb_2Test(nIn_1:=2,nIn_2:=5);]]></ST>
+
+ControlPanel();]]></ST>
     </Implementation>
     <LineIds Name="MAIN">
-      <LineId Id="2" Count="0" />
-      <LineId Id="7" Count="0" />
-      <LineId Id="6" Count="0" />
-      <LineId Id="11" Count="0" />
+      <LineId Id="114" Count="0" />
+      <LineId Id="131" Count="0" />
+      <LineId Id="158" Count="0" />
+      <LineId Id="138" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>

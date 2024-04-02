@@ -6,11 +6,11 @@ VAR_GLOBAL
 	// Digital IO in FactoryIO Outputs
 	mb_Input_Coils		:	ARRAY [0..3] OF BOOL;
 	// Digital IO in FactoryIO Inputs
-	mb_Output_Coils		:   ARRAY [0..5] OF BOOL;
+	mb_Output_Coils		:   ARRAY [0..9] OF BOOL;
 	// Analog IO in FactoryIO Outputs
-	mb_Input_Registers	: 	ARRAY [0..255] OF WORD;
+	mb_Input_Registers	: 	ARRAY [0..2] OF WORD;
 	// Analog IO in FactoryIO Inputs
-	mb_Output_Registers	: 	ARRAY [0..255] OF WORD;
+	mb_Output_Registers	: 	ARRAY [0..1] OF WORD;
 	
 	nState				: INT;
 END_VAR]]></Declaration>

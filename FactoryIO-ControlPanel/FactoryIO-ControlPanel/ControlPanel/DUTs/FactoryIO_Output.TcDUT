@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <DUT Name="FactoryIO_Output" Id="{62515850-4fb1-4aa1-b1cd-dee53f154e17}">
+    <Declaration><![CDATA[TYPE FactoryIO_Output :
+STRUCT
+	bStopBlade		:	BOOL;
+	bStartLight		:	BOOL;
+	bResetLight		:	BOOL;
+	bStopLight		:	BOOL;
+	nBufferConveyor	: 	WORD;
+	nExitConveyor	: 	WORD;
+	nCounter		:	WORD;
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

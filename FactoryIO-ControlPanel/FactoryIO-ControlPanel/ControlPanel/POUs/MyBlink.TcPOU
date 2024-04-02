@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="MyBlink" Id="{f2b54b98-3b3b-4032-b38c-5cb30df8dd76}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK MyBlink
+VAR_INPUT
+	tBlinkTime			: TON;
+	bEnable				: BOOL;
+	bBlinkHz			: BOOL;
+	tTimeOn				: TIME := T#2S;
+	tTimeOff 			: TIME := tTimeOn/2;
+END_VAR
+VAR_OUTPUT
+	bBlink				: BOOL;
+END_VAR
+VAR
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[// SET Timer ON
+tBlinkTime(IN:=NOT tBlinkTime.Q, PT:= tTimeON);
+
+// Set Timer OFF
+bBlinkHz := tBlinkTime.ET >= tTimeOff;
+
+// OUTPUT
+bBlink := bBlinkHz AND bEnable;]]></ST>
+    </Implementation>
+    <LineIds Name="MyBlink">
+      <LineId Id="22" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="24" Count="0" />
+      <LineId Id="23" Count="0" />
+      <LineId Id="18" Count="0" />
+      <LineId Id="26" Count="0" />
+      <LineId Id="25" Count="0" />
+      <LineId Id="16" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

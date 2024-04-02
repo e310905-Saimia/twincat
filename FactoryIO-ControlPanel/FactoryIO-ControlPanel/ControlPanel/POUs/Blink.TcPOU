@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="Blink" Id="{616ae6ef-83ff-46d5-a9d4-a976618ae8ef}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM Blink
+VAR
+	hvacBlink 	: FB_HVACBlink();
+	bEnable		: BOOL;
+	tTimeOn		: TIME := T#2S;
+	tTimeOff 	: TIME := T#1S;
+END_VAR
+
+VAR_OUTPUT
+	bBlink			: BOOL;
+	tNextSwitching  :TIME;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[hvacBlink(bEnable:=bEnable,
+tTimeOn:=tTimeOn,
+tTimeOff:=tTimeOff,
+bBlink=>,
+tNextSwitching=>);]]></ST>
+    </Implementation>
+    <LineIds Name="Blink">
+      <LineId Id="5" Count="0" />
+      <LineId Id="19" Count="2" />
+      <LineId Id="23" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

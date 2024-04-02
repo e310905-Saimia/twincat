@@ -3,28 +3,177 @@
   <POU Name="ControlPanel" Id="{6fafcdca-fd53-44b1-8233-794b801bcaa5}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK ControlPanel
 VAR_INPUT
+	
+	
 END_VAR
 VAR_OUTPUT
+	
 END_VAR
 VAR
+	isResetON	: BOOL;
+	isStopON	: BOOL;
+	isEmgStopON	: BOOL;
+	isSystemON	: BOOL;
+	
+	factoryIO_Input	: FactoryIO_Input;
+	i	: INT;
+	
+	(*
 	bAtBufferEntry	:	BOOL;
+	bAtBufferExit	:	BOOL;
+	bAtExit			:	BOOL;
+	bStartButton	: 	BOOL;
+	bResetButton	: 	BOOL;
+	bStopButton		: 	BOOL;
+	bAuto			: 	BOOL;
+	bEmgStop		: 	BOOL;
+	bManual			: 	BOOL;
+	*)
 	
-	
+	blink			: MyBlink();
 END_VAR
+
+
+
 ]]></Declaration>
     <Implementation>
       <ST><![CDATA[{region "READ Values from Sensors"}
+	(*
 	bAtBufferEntry	:=	GVL.mb_Output_Coils[0];
+	bAtBufferExit	:= 	GVL.mb_Output_Coils[1];
+	bAtExit			:=	GVL.mb_Output_Coils[2];
+	bStartButton	:=	GVL.mb_Output_Coils[3];
+	bResetButton	:= 	GVL.mb_Output_Coils[4];
+	bStopButton		:= 	GVL.mb_Output_Coils[5];
+	bAuto			:=	GVL.mb_Output_Coils[6];
+	bEmgStop	 	:= 	GVL.mb_Output_Coils[7];
+	bManual	 		:= 	GVL.mb_Output_Coils[8];
+	*)
+	 
+	factoryIO_Input.bAtBufferEntry	:=	GVL.mb_Output_Coils[0];
+	factoryIO_Input.bAtBufferExit	:=	GVL.mb_Output_Coils[1];
+	factoryIO_Input.bAtExit			:=	GVL.mb_Output_Coils[2];
+	factoryIO_Input.bStartButton	:=	GVL.mb_Output_Coils[3];
+	factoryIO_Input.bResetButton	:=	GVL.mb_Output_Coils[4];
+	factoryIO_Input.bStopButton		:=	GVL.mb_Output_Coils[5];
+	factoryIO_Input.bAuto			:=	GVL.mb_Output_Coils[6];
+	factoryIO_Input.bEmgStop		:=	GVL.mb_Output_Coils[7];
+	factoryIO_Input.bManual			:=	GVL.mb_Output_Coils[8];
+	factoryIO_Input.nSpeed			:=	GVL.mb_Output_Registers[0];
 		 
-		 
+	
+	isEmgStopON	:=	GVL_System.isEmgStopON;
+	isResetON 	:= 	GVL_System.isResetON;
+	isStopON	:= 	GVL_System.isStopON;
+	isSystemON	:= 	GVL_System.isSystemON;	
+{endregion}
+	 
+	 
+{region "LOGIC"}
+	{REGION "Memory BIT FOR SystemON"}
+		// When isSystemON memory bit is true system is ready to run
+		IF isResetON OR isStopON THEN
+			IF isEmgStopON AND factoryIO_Input.bStartButton THEN
+				isSystemON := TRUE;
+			END_IF;
+		END_IF;
+		
+		IF NOT isEmgStopON OR NOT factoryIO_Input.bStopButton THEN
+			isSystemON := FALSE;
+		END_IF;		
+	{endregion}
+
+	{REGION "Memory Bit FOR isEmgStopON - Set/Reset"}
+		IF factoryIO_Input.bEmgStop THEN
+			isEmgStopON := TRUE;
+		END_IF;
+		
+		IF NOT factoryIO_Input.bEmgStop THEN
+			isEmgStopON := FALSE;
+		END_IF;
+	{endregion}
+	
+	{REGION "Memory Bit FOR isResetON - Set/Reset"}
+		IF factoryIO_Input.bResetButton AND isEmgStopON AND NOT isStopON THEN
+			isResetON := TRUE;
+		END_IF;
+		
+		IF factoryIO_Input.bStartButton THEN
+			isResetON := FALSE;
+		END_IF;		
+	{endregion}
+
+	{REGION "Memory Bit FOR isStopON - Set/Reset"}		 
+		IF NOT factoryIO_Input.bStopButton AND isEmgStopON THEN
+			isStopON := TRUE;
+		END_IF;
+		
+		IF isSystemON OR NOT isEmgStopON THEN
+			isStopON := FALSE;
+		END_IF;
+		
+	{endregion}
+
+	// ======= OUTPUTS =========
+	
+	{REGION Start Light ON with Coil (Assignment)}
+		GVL.mb_Input_Coils[1] := isSystemON OR ((isResetON OR (NOT isResetON AND isStopON)) AND isEmgStopON AND NOT isSystemON AND blink);
+	{endregion}
+			  
+	{REGION Reset Light ON with Coil (Assignment)}	 
+		GVL.mb_Input_Coils[2] := (isResetON OR (NOT isResetON AND blink)) AND isEmgStopON AND NOT isStopON AND NOT isSystemON;
+	{endregion}
+	
+	{REGION Stop Light ON with Coil (Assignment)}
+		GVL.mb_Input_Coils[3] := (isEmgStopON OR isStopON OR (NOT isEmgStopON AND blink)) AND NOT isSystemON;
+	{endregion}
+
+	
+	GVL_System.isEmgStopON:= isEmgStopON;
+	GVL_System.isResetON:= isResetON;
+	GVL_System.isStopON:= isStopON;
+	GVL_System.isSystemON := isSystemON;
+	
 {endregion}]]></ST>
     </Implementation>
     <LineIds Name="ControlPanel">
       <LineId Id="9" Count="0" />
       <LineId Id="13" Count="0" />
+      <LineId Id="51" Count="0" />
       <LineId Id="15" Count="0" />
       <LineId Id="14" Count="0" />
-      <LineId Id="12" Count="0" />
+      <LineId Id="34" Count="0" />
+      <LineId Id="39" Count="1" />
+      <LineId Id="43" Count="0" />
+      <LineId Id="37" Count="0" />
+      <LineId Id="44" Count="0" />
+      <LineId Id="99" Count="0" />
+      <LineId Id="69" Count="0" />
+      <LineId Id="98" Count="0" />
+      <LineId Id="114" Count="7" />
+      <LineId Id="123" Count="0" />
+      <LineId Id="248" Count="1" />
+      <LineId Id="251" Count="2" />
+      <LineId Id="250" Count="0" />
+      <LineId Id="36" Count="0" />
+      <LineId Id="151" Count="2" />
+      <LineId Id="156" Count="10" />
+      <LineId Id="168" Count="19" />
+      <LineId Id="189" Count="13" />
+      <LineId Id="241" Count="0" />
+      <LineId Id="203" Count="1" />
+      <LineId Id="206" Count="0" />
+      <LineId Id="232" Count="0" />
+      <LineId Id="207" Count="1" />
+      <LineId Id="235" Count="0" />
+      <LineId Id="210" Count="3" />
+      <LineId Id="247" Count="0" />
+      <LineId Id="242" Count="0" />
+      <LineId Id="155" Count="0" />
+      <LineId Id="243" Count="1" />
+      <LineId Id="246" Count="0" />
+      <LineId Id="245" Count="0" />
+      <LineId Id="154" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>
