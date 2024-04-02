@@ -16,7 +16,7 @@
 		</System>
 		<Plc>
 			<Project GUID="{9AC34FCB-BA64-4D52-8BCF-01131D4466A7}" Name="ControlPanel" PrjFilePath="ControlPanel\ControlPanel.plcproj" TmcFilePath="ControlPanel\ControlPanel.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e" SymbolicMapping="true">
-				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="ControlPanel\ControlPanel.tmc" TmcHash="{97115B0B-4898-5377-149E-594363C706D4}">
+				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="ControlPanel\ControlPanel.tmc" TmcHash="{349E19D0-D6AD-9D88-B0AB-ACF59B1A67C5}">
 					<Name>ControlPanel Instance</Name>
 					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
 					<Contexts>

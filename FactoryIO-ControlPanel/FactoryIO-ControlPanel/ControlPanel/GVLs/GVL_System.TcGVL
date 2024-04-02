@@ -6,7 +6,7 @@ VAR_GLOBAL
 	isResetON	: BOOL;
 	isStopON	: BOOL;
 	isEmgStopON	: BOOL;
-	
+	isSystemON	: BOOL;
 END_VAR]]></Declaration>
   </GVL>
 </TcPlcObject>

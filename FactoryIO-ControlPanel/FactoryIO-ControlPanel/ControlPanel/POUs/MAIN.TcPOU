@@ -23,13 +23,15 @@ VAR
 	
 END_VAR]]></Declaration>
     <Implementation>
-      <ST><![CDATA[Blink();
+      <ST><![CDATA[redBlink.bEnable:=TRUE;
+redBlink();
 
 
-ControlPanel();]]></ST>
+controlPanel();]]></ST>
     </Implementation>
     <LineIds Name="MAIN">
       <LineId Id="114" Count="0" />
+      <LineId Id="163" Count="0" />
       <LineId Id="131" Count="0" />
       <LineId Id="158" Count="0" />
       <LineId Id="138" Count="0" />

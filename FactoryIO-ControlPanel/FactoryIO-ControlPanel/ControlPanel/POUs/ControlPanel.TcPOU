@@ -15,9 +15,12 @@ VAR
 	isEmgStopON	: BOOL;
 	isSystemON	: BOOL;
 	
-	factoryIO_Input	: FactoryIO_Input;
-	i	: INT;
+	// Structure
+	factoryIO_Input		: FactoryIO_Input;
+	factoryIO_Output	: FactoryIO_Output;
 	
+	i	: INT;
+
 	(*
 	bAtBufferEntry	:	BOOL;
 	bAtBufferExit	:	BOOL;
@@ -31,6 +34,7 @@ VAR
 	*)
 	
 	blink			: MyBlink();
+	isBlink			: BOOL;
 END_VAR
 
 
@@ -49,7 +53,7 @@ END_VAR
 	bEmgStop	 	:= 	GVL.mb_Output_Coils[7];
 	bManual	 		:= 	GVL.mb_Output_Coils[8];
 	*)
-	 
+	// Save data to local variables in structure
 	factoryIO_Input.bAtBufferEntry	:=	GVL.mb_Output_Coils[0];
 	factoryIO_Input.bAtBufferExit	:=	GVL.mb_Output_Coils[1];
 	factoryIO_Input.bAtExit			:=	GVL.mb_Output_Coils[2];
@@ -60,7 +64,6 @@ END_VAR
 	factoryIO_Input.bEmgStop		:=	GVL.mb_Output_Coils[7];
 	factoryIO_Input.bManual			:=	GVL.mb_Output_Coils[8];
 	factoryIO_Input.nSpeed			:=	GVL.mb_Output_Registers[0];
-		 
 	
 	isEmgStopON	:=	GVL_System.isEmgStopON;
 	isResetON 	:= 	GVL_System.isResetON;
@@ -115,17 +118,20 @@ END_VAR
 	{endregion}
 
 	// ======= OUTPUTS =========
+		 //blink.bEnable:=TRUE;
+		 blink(bEnable:=TRUE,tTimeOn:=T#1S,tTimeOff:=T#500MS);
+		 isBlink	:= blink.bBlink;
 	
 	{REGION Start Light ON with Coil (Assignment)}
-		GVL.mb_Input_Coils[1] := isSystemON OR ((isResetON OR (NOT isResetON AND isStopON)) AND isEmgStopON AND NOT isSystemON AND blink);
+		factoryIO_Output.bStartLight:= GVL.mb_Input_Coils[1] := isSystemON OR ((isResetON OR (NOT isResetON AND isStopON)) AND isEmgStopON AND NOT isSystemON AND isBlink);
 	{endregion}
 			  
 	{REGION Reset Light ON with Coil (Assignment)}	 
-		GVL.mb_Input_Coils[2] := (isResetON OR (NOT isResetON AND blink)) AND isEmgStopON AND NOT isStopON AND NOT isSystemON;
+		factoryIO_Output.bResetLight:= GVL.mb_Input_Coils[2] := (isResetON OR (NOT isResetON AND isBlink)) AND isEmgStopON AND NOT isStopON AND NOT isSystemON;
 	{endregion}
 	
 	{REGION Stop Light ON with Coil (Assignment)}
-		GVL.mb_Input_Coils[3] := (isEmgStopON OR isStopON OR (NOT isEmgStopON AND blink)) AND NOT isSystemON;
+		factoryIO_Output.bStopLight:= GVL.mb_Input_Coils[3] := (isEmgStopON OR isStopON OR (NOT isEmgStopON AND isBlink)) AND NOT isSystemON;
 	{endregion}
 
 	
@@ -152,7 +158,7 @@ END_VAR
       <LineId Id="98" Count="0" />
       <LineId Id="114" Count="7" />
       <LineId Id="123" Count="0" />
-      <LineId Id="248" Count="1" />
+      <LineId Id="248" Count="0" />
       <LineId Id="251" Count="2" />
       <LineId Id="250" Count="0" />
       <LineId Id="36" Count="0" />
@@ -160,6 +166,9 @@ END_VAR
       <LineId Id="156" Count="10" />
       <LineId Id="168" Count="19" />
       <LineId Id="189" Count="13" />
+      <LineId Id="260" Count="0" />
+      <LineId Id="259" Count="0" />
+      <LineId Id="258" Count="0" />
       <LineId Id="241" Count="0" />
       <LineId Id="203" Count="1" />
       <LineId Id="206" Count="0" />
