@@ -3,12 +3,15 @@
   <GVL Name="GVL" Id="{b10f606b-962d-4a42-a4e7-fd35ea264a10}">
     <Declaration><![CDATA[{attribute 'qualified_only'}
 VAR_GLOBAL
+	// Digital IO in FactoryIO Outputs
 	mb_Input_Coils	:	ARRAY [0..3] OF BOOL;
+	// Digital IO in FactoryIO Inputs
  	mb_Output_Coils	:   ARRAY [0..5] OF BOOL;
 	
-	iState 			: 	INT;
+	nState 			: 	INT;
 	nBoxCounter		:	INT;
-	nXXXCounter		: 	INT;
-END_VAR]]></Declaration>
+END_VAR
+
+]]></Declaration>
   </GVL>
 </TcPlcObject>

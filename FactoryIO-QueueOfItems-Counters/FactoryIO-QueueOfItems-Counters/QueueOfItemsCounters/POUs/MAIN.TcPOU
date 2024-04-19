@@ -10,8 +10,5 @@ END_VAR
     <Implementation>
       <ST><![CDATA[StateMachine();]]></ST>
     </Implementation>
-    <LineIds Name="MAIN">
-      <LineId Id="2" Count="0" />
-    </LineIds>
   </POU>
 </TcPlcObject>
