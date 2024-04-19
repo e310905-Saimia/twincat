@@ -6,7 +6,7 @@
     <ProjectGuid>{8807240d-bc47-4034-b981-d31a13dcb97d}</ProjectGuid>
     <SubObjectsSortedByName>True</SubObjectsSortedByName>
     <DownloadApplicationInfo>true</DownloadApplicationInfo>
-    <WriteProductVersion>true</WriteProductVersion>
+    <WriteProductVersion>false</WriteProductVersion>
     <GenerateTpy>false</GenerateTpy>
     <Name>QueueOfItemsCounters</Name>
     <ProgramVersion>3.1.4024.0</ProgramVersion>
